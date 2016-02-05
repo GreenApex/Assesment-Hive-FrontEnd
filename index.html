@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--stylesheet-->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+    <!--Jquery and Angular js-->
+    <script type="application/javascript" src="assets/js/jquery-1.11.1.min.js"></script>
+    <script type="application/javascript" src="angularLib/angular.min.js"></script>
+    <script type="application/javascript" src="angularLib/angular-route.min.js"></script>
+    <script type="application/javascript" src="angularLib/angular-resource.min.js"></script>
+    <script type="application/javascript" src="angularLib/angular-drag-and-drop-lists.js"></script>
+    <script type="application/javascript" src="angularLib/angular-animate.min.js"></script>
+    <script type="application/javascript" src="assets/js/bootstrap.min.js"></script>
+    <script type="application/javascript" src="assets/js/classie.js"></script>
+    <script type="application/javascript" src="assets/js/borderMenu.js"></script>
+    <!--controllers-->
+    <script type="application/javascript" src="angularLib/mainController.js"></script>
+    <script type="application/javascript" src="angularLib/mainService.js"></script>
+    <script type="application/javascript" src="view/home/homeController.js"></script>
+    <script type="application/javascript" src="view/login/loginController.js"></script>
+    <script type="application/javascript" src="view/templateForm/templateFormController.js"></script>
+    <!--services-->
+
+    <!--directives-->
+    <script type="application/javascript" src="angularLib/mainDirective.js"></script>
+    <!--fonts-->
+
+</head>
+<body>
+    <div id="loader">
+        <div class="dots-loader cssload-thecube">
+            <div class="cssload-cube cssload-c1"></div>
+            <div class="cssload-cube cssload-c2"></div>
+            <div class="cssload-cube cssload-c4"></div>
+            <div class="cssload-cube cssload-c3"></div>
+        </div>
+    </div>
+    <div id="pageWrapper"></div>
+
+    <div ng-view=""></div>
+</body>
+</html>

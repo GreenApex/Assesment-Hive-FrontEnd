@@ -1,0 +1,188 @@
+@import "loader.css";
+@import "menu.css";
+@import "icons.css";
+@import "dragDrop.css";
+
+@font-face {
+    font-weight: normal;
+    font-style: normal;
+    font-family: 'codropsicons';
+    src:url('../fonts/codropsicons/codropsicons.eot');
+    src:url('../fonts/codropsicons/codropsicons.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/codropsicons/codropsicons.woff') format('woff'),
+    url('../fonts/codropsicons/codropsicons.ttf') format('truetype'),
+    url('../fonts/codropsicons/codropsicons.svg#codropsicons') format('svg');
+}
+
+html,body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Lato', Arial, sans-serif;
+}
+
+a:hover{
+    text-decoration: none;
+    color: #fff;
+}
+
+/**
+ * For the correct positioning of the placeholder element, the dnd-list and
+ * it's children must have position: relative
+ */
+.simpleDemo ul[dnd-list],
+.simpleDemo ul[dnd-list] > li {
+    position: relative;
+}
+
+/**
+ * The dnd-list should always have a min-height,
+ * otherwise you can't drop to it once it's empty
+ */
+.simpleDemo ul[dnd-list] {
+    min-height: 42px;
+    padding-left: 0px;
+}
+
+/**
+ * The dndDraggingSource class will be applied to
+ * the source element of a drag operation. It makes
+ * sense to hide it to give the user the feeling
+ * that he's actually moving it.
+ */
+.simpleDemo ul[dnd-list] .dndDraggingSource {
+    display: none;
+}
+
+/**
+ * An element with .dndPlaceholder class will be
+ * added to the dnd-list while the user is dragging
+ * over it.
+ */
+.simpleDemo ul[dnd-list] .dndPlaceholder {
+    display: block;
+    background-color: #ddd;
+    min-height: 42px;
+}
+
+/**
+ * The dnd-lists's child elements currently MUST have
+ * position: relative. Otherwise we can not determine
+ * whether the mouse pointer is in the upper or lower
+ * half of the element we are dragging over. In other
+ * browsers we can use event.offsetY for this.
+ */
+.simpleDemo ul[dnd-list] li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+}
+
+/**
+ * Show selected elements in green
+ */
+.simpleDemo ul[dnd-list] li.selected {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+
+/*------------------------------------------------------header*/
+header{
+    background: rgba(51, 122, 183, 0.8);
+    padding: 10px 0px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+}
+header h1{
+    margin-top: 10px !important;
+}
+header h1>a, header h1>img, header h4>a{
+    color: #ffffff;
+    text-shadow: .1em .1em .2em rgba(0, 0, 0, 0.6);
+}
+/*------------------------------------------------------footer*/
+footer{
+    background: rgba(38, 38, 38, 0.8);
+    padding: 10px 0px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /*box-shadow: 5px 5px 10px rgba(0,0,0,0.3);*/
+}
+footer h3>a, footer h1>img{
+    color: #ffffff;
+}
+
+/*------------------------------------------------------sidebar*/
+.sidebar{
+    background: rgba(38, 38, 38, 0.8);
+    padding: 10px 5px;
+    position: absolute;
+    height: 75%;
+    width: 100px;
+    left: 0;
+    top:83px;
+    /*box-shadow: 5px 5px 10px rgba(0,0,0,0.3);*/
+}
+.sidebar h3>a, .sidebar h1>img{
+    color: #ffffff;
+}
+
+/*------------------------------------------------------background blur image*/
+#pageWrapper{
+   position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url(../images/bg.jpg) no-repeat center;
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
+    z-index: -9999;
+}
+/*------------------------------------------------------home section*/
+.homeWrapper{
+
+    color: rgba(172, 41, 37, 0.8);
+    margin: 200px 0;
+    font-weight: 900;
+    font-size: 100px;
+}
+/*------------------------------------------------------login section*/
+.loginWrapper{
+    margin: 50px auto;
+    width: 30%;
+    padding: 30px 40px 20px 40px;
+    border-radius: 5px;
+    background: rgba(92, 184, 92, 0.7);
+}
+
+.loginForm>label{
+    font-size: 17px;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+.loginForm>input[type=text], .loginForm>input[type=passowrd]{
+    font-size: 14px;
+}
+.loginForm>button, .loginForm>a{
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px 0;
+}
+
+/*------------------------------------------------------TemplateForm section*/
+.tempFormWrapper{
+    margin: 50px auto;
+    width: 50%;
+    padding: 30px 40px 20px 40px;
+    border-radius: 5px;
+    background: #ce8483;
+}
+
+.tempFormWrapper>a{
+    color: #ffffff;
+}
