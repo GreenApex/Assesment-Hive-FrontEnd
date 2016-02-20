@@ -1,0 +1,33 @@
+<desk-header></desk-header>
+<div ng-init="getReating()">
+    <div id="container" style="min-width: 310px; height: 400px; margin: 150px auto">
+        <high-chart chart="bar_chart"
+                    chart-type="pie"
+                    title-text="Rating of Year"
+                    series-data="chartData"
+                    x-axis-type="category"
+                    y-axis-type="Rate of Year"
+                    drill-down-data="drillData">
+        </high-chart>
+    </div>
+    <div style="min-width: 310px; height: 400px; margin: 150px auto">
+        <high-chart chart="bar_chart1"
+                    chart-type="column"
+                    title-text="Rating of Year"
+                    series-data="chartData"
+                    x-axis-type="category"
+                    y-axis-type="Rate of Year"
+                    drill-down-data="drillData">
+        </high-chart>
+    </div>
+    <div style="min-width: 310px; height: 400px; margin: 150px auto">
+        <high-chart chart="bar_chart2"
+                    chart-type="line"
+                    title-text="Rating of Year"
+                    series-data="chartData"
+                    x-axis-type="category"
+                    y-axis-type="Rate of Year"
+                    drill-down-data="drillData">
+        </high-chart>
+    </div>
+</div>

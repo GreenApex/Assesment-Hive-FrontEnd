@@ -1,0 +1,141 @@
+<desk-header></desk-header>
+
+<section class="container-fluid" ng-show="transformForm">
+    <div class="assessmentFormWrapper">
+        <form novalidate name="templateCreateForm">
+            <div class="form-group assessmentForm">
+                <label>Template :</label>
+                <input type="text" class="form-control input-lg" placeholder="Template Name" name="templateName" ng-model="templateName" required>
+            </div>
+
+            <div class="form-group" style="max-height: 200px; overflow-y: scroll">
+
+                <label>Select Categories :</label>
+                <div class="material_checkbox_group" ng-repeat="category in categoriesTitle">
+                    <input type="checkbox" id="checkbox{{$index}}" name="checkbox{{$index}}" class="material_checkbox material_checkbox_success" ng-model="category.checkBox" ng-click="selectCheckboxFunction(category.checkBox,category)" ng-required="checkBoxSelection"/>
+                    <label class="material_label_checkbox" for="checkbox{{$index}}">{{category.catrgoryName}}</label>
+                </div>
+                <!--<div class="material_checkbox_group">
+                    <input type="checkbox" id="checkbox4" name="checkbox" class="material_checkbox material_checkbox_success" />
+                    <label class="material_label_checkbox" for="checkbox4">Category 4</label>
+                </div>-->
+
+
+            </div>
+            <div class="form-group text-center ">
+                <a type="button" class="btn btn-default material_btn material_btn_primary" ng-click="transformForm = false" ng-disabled="templateCreateForm.$invalid">Save</a>
+                <button type="button" class="btn btn-default material_btn material_btn_cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="container" ng-hide="transformForm" style="margin-top: 50px">
+    <!--<div class="tempFormWrapper">
+        <a href="" ng-click="getCategoriesFunction()"> Back to main Category</a>
+        <div class="row">
+            <button class="repeatAnimation btn btn-{{categoryColor}}" ng-repeat="data in categories" style="margin: 10px; height: 100px; width: 100px" ng-click="categoryChange(data.value)" >{{data.label}}</button>
+        </div>
+        <desk-popup title="You Selected" visible="showModal">
+            <h4>{{subCategories}}</h4>
+            &lt;!&ndash;<form role="form">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter email" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Password" />
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>&ndash;&gt;
+        </desk-popup>
+    </div>-->
+    <div class="container bg-info" style="padding: 20px">
+        <div class="col-md-4 col-md-offset-1">
+            <div class="panel panel-warning">
+                <div class="panel-heading">Principle</div>
+                <ul class="list-group" style="max-height: 200px; overflow-y: scroll;">
+                    <li ng-repeat="item in principle"
+                        dnd-draggable="item"
+                        dnd-type="'principleType'"
+                        dnd-effect-allowed="copy"
+                        dnd-selected="models.selected = item"
+                        ng-class="{'list-group-item-success': models.selected === item}"
+                        class="list-group-item" style="cursor: pointer">
+                        <!--{{item.label}}-->
+                        {{item.principleName}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4 col-md-offset-1">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Questionnaire</div>
+                <ul class="list-group-item" style="max-height: 200px; overflow-y: scroll;">
+                    <li ng-repeat="i in question"
+                        dnd-draggable="i"
+                        dnd-type="'questionType'"
+                        dnd-effect-allowed="copy"
+                        dnd-selected="models.selected = i"
+                        ng-class="{'list-group-item-success': models.selected === i}"
+                            class="list-group-item" style="cursor: pointer">
+                        {{i.name}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="advancedDemo container bg-info" style="padding: 20px; margin-top: 20px">
+        <div>
+            <h3 class="pull-left">Create template for {{templateName}}</h3>
+            <button class="btn btn-success btn-lg pull-right" ng-click="saveTemplate()" ng-disabled="selectedCategories[0].principleList == '' || selectedCategories[0].principleList[0].questionnaireList == ''">Save Template</button>
+        </div>
+        <div class="clearfix"></div>
+        <div ng-repeat="list in selectedCategories" class="col-md-4" style="min-height: 500px; margin-top: 10px">
+            <div class="dropzone panel panel-success">
+                <div class="panel-heading">{{list.catrgoryName}}</div>
+                <ul dnd-list="list.principleList" dnd-allowed-types="['principleType']">
+                    <!-- The dnd-draggable directive makes an element draggable and will
+                         transfer the object that was assigned to it. If an element was
+                         dragged away, you have to remove it from the original list
+                         yourself using the dnd-moved attribute -->
+                    <li ng-repeat="item in list.principleList"
+                        dnd-draggable="item"
+                        dnd-type="'principleType'"
+                        dnd-moved="list.principleList.splice($index, 1)"
+                        dnd-effect-allowed="move"
+                        dnd-selected="models.selected = item"
+                        ng-class="{'selected': models.selected === item}"
+                        style="cursor: pointer">
+                        <!--{{item.label}}-->
+
+                        <div class="container-element panel panel-warning">
+                            <div class="panel-heading">{{item.principleName}}</div>
+                            <ul dnd-list="item.questionnaireList"
+                                class="itemlist"
+                                dnd-allowed-types="['questionType']">
+                                <!-- The dnd-draggable directive makes an element draggable and will
+                                     transfer the object that was assigned to it. If an element was
+                                     dragged away, you have to remove it from the original list
+                                     yourself using the dnd-moved attribute -->
+                                <li ng-repeat="i in item.questionnaireList"
+                                    dnd-draggable="i"
+                                    dnd-type="'questionType'"
+                                    dnd-moved="item.questionnaireList.splice($index, 1)"
+                                    dnd-effect-allowed="move"
+                                    dnd-selected="models.selected = i"
+                                    ng-class="{'selected': models.selected === i}"
+                                    style="cursor: pointer">
+                                    {{i.name}}
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+<!--{{modelAsJson}}-->
+
+</section>

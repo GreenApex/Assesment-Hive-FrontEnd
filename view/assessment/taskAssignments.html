@@ -1,0 +1,128 @@
+<desk-header></desk-header>
+<section class="container-fluid">
+    <div class="container" style="margin-top: 100px">
+        <div class="panel panel-info">
+
+            <div class="tempFormWrapper">
+                <!--<a href="" ng-click="getMyTaskFunction()"> Back to main Task</a>-->
+                <div class="row">
+                    <button class="repeatAnimation btn btn-{{categoryColor}}" ng-repeat="data in users" style="margin: 10px; height: 100px; width: 100px" ng-click="categoryChange(data)" >{{data.name}}</button>
+                </div>
+                <desk-popup title="You Selected" visible="showModal">
+                    <h4>{{subCategories}}</h4>
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter email" />
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Password" />
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                </desk-popup>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!--
+<section class="container-fluid">
+    <div class="container" style="margin-top: 100px">
+
+        <table class="table table-bordered table-hover table-condensed">
+            <tr style="font-weight: bold">
+                <td style="width:35%">Name</td>
+                <td style="width:35%">Description</td>
+            </tr>
+            <tr ng-repeat="user in users">
+                <td>
+                    &lt;!&ndash; editable username (text with validation) &ndash;&gt;
+        <span editable-text="user.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, user.id)">
+          {{ user.name || 'empty' }}
+        </span>
+                </td>
+                <td>
+                    &lt;!&ndash; editable username (text with validation) &ndash;&gt;
+        <span editable-text="user.description" e-name="description" e-form="rowform" onbeforesave="checkName($data, user.id)">
+          {{ user.description || 'empty' }}
+        </span>
+                </td>
+
+                &lt;!&ndash;<td style="white-space: nowrap">
+                    &lt;!&ndash; form &ndash;&gt;
+                    <form editable-form name="rowform" onbeforesave="saveUser($data, user.id)"
+                          ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+                        <button type="submit" ng-disabled="rowform.$waiting"
+                                class="btn btn-default material_btn material_btn_primary">
+                            save
+                        </button>
+                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()"
+                                class="btn btn-default material_btn material_btn_cancel">
+                            cancel
+                        </button>
+
+                    </form>
+                    <div class="buttons" ng-show="!rowform.$visible">
+                        <button class="btn btn-default material_btn material_btn_primary" ng-click="rowform.$show()">
+                            edit
+                        </button>
+                        <button class="btn btn-danger material_btn material_btn_cancel" ng-click="removeUser(user.id)">
+                            del
+                        </button>
+                        <a type="button" href="#/assignUser?teamID={{user.id}}"
+                           class="btn btn-default material_btn material_btn_primary">
+                            Assign
+                        </a>
+                    </div>
+                </td>&ndash;&gt;
+            </tr>
+            <tr ng-repeat="users in user">
+                <td>
+                    &lt;!&ndash; editable username (text with validation) &ndash;&gt;
+        <span editable-text="users.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, users.id)">
+          {{ users.name || 'empty' }}
+        </span>
+                </td>
+                <td>
+                    &lt;!&ndash; editable username (text with validation) &ndash;&gt;
+        <span editable-text="users.description" e-name="description" e-form="rowform" onbeforesave="checkName($data, users.id)">
+          {{ users.description || 'empty' }}
+        </span>
+                </td>
+
+                &lt;!&ndash;<td style="white-space: nowrap">
+                    &lt;!&ndash; form &ndash;&gt;
+                    <form editable-form name="rowform" onbeforesave="saveUser($data, users.id)"
+                          ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == users">
+                        <button type="submit" ng-disabled="rowform.$waiting"
+                                class="btn btn-default material_btn material_btn_primary">
+                            save
+                        </button>
+                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()"
+                                class="btn btn-default material_btn material_btn_cancel">
+                            cancel
+                        </button>
+
+                    </form>
+                    <div class="buttons" ng-show="!rowform.$visible">
+                        <button class="btn btn-default material_btn material_btn_primary" ng-click="rowform.$show()">
+                            edit
+                        </button>
+                        <button class="btn btn-danger material_btn material_btn_cancel" ng-click="removeUser(users.id)">
+                            del
+                        </button>
+                        <a type="button" href="#/assignUser?teamID={{users.id}}"
+                           class="btn btn-default material_btn material_btn_primary">
+                            Assign
+                        </a>
+                    </div>
+                </td>&ndash;&gt;
+            </tr>
+        </table>
+
+        &lt;!&ndash; <button class="btn btn-default" ng-click="addUser()">Add row</button>&ndash;&gt;
+    </div>
+</section>-->

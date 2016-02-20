@@ -1,0 +1,141 @@
+<desk-header></desk-header>
+<section class="container" style="margin-top: 100px" ng-show="transformForm">
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>
+                    Template Name
+                </th>
+                <th>
+                    Edit
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="data in templateData">
+                <td>
+                    {{data.templateName}}
+                </td>
+                <td>
+                    <a href="" class="btn material_btn_primary btn-lg" ng-click="getTemplateDetail(data)">Detail</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="container" ng-hide="transformForm" style="margin-top: 50px">
+  <div class="container bg-info" style="padding: 20px">
+        <div class="col-md-4">
+            <div class="panel panel-warning">
+                <div class="panel-heading">Principle</div>
+                <ul class="list-group" style="max-height: 200px; overflow-y: scroll;">
+                    <li ng-repeat="item in principle"
+                        dnd-draggable="item"
+                        dnd-type="'principleType'"
+                        dnd-effect-allowed="copy"
+                        dnd-selected="models.selected = item"
+                        ng-class="{'list-group-item-success': models.selected === item}"
+                        class="list-group-item" style="cursor: pointer">
+                        <!--{{item.label}}-->
+                        {{item.principleName}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Questionnaire</div>
+                <ul class="list-group-item" style="max-height: 200px; overflow-y: scroll;">
+                    <li ng-repeat="i in question"
+                        dnd-draggable="i"
+                        dnd-type="'questionType'"
+                        dnd-effect-allowed="copy"
+                        dnd-selected="models.selected = i"
+                        ng-class="{'list-group-item-success': models.selected === i}"
+                        class="list-group-item" style="cursor: pointer">
+                        {{i.name}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+
+            <div class="clearfix"></div>
+            <div class="panel panel-warning">
+                <div class="panel-heading">Remove Principle</div>
+                <ul class="list-group" style="max-height: 100px; overflow-y: scroll;" dnd-list="list.principleList" dnd-allowed-types="['removePrincipleType']">
+                    <li ng-repeat="item in removePrinciple"
+                        class="list-group-item" style="cursor: pointer">
+                        <!--{{item.label}}-->
+                        {{$index}}
+                    </li>
+                </ul>
+                {{modelAsPrinciple}}
+            </div>
+            <div class="clearfix"></div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Remove Questionnaire</div>
+                <ul class="list-group-item" style="max-height: 100px; overflow-y: scroll;" dnd-list="item.questionnaireList" dnd-allowed-types="['removeQuestionType']">
+                    <li ng-repeat="i in removeQuestion"
+                        class="list-group-item" style="cursor: pointer">
+                        {{$index}}
+                    </li>
+                </ul>
+                {{modelAsQuestion}}
+            </div>
+        </div>
+    </div>
+    <div class="advancedDemo container bg-info" style="padding: 20px; margin-top: 20px">
+        <div>
+            <h3 class="pull-left">Create template for <input type="text" ng-model="templateName" class="form-control"></h3>
+            <button class="btn btn-success btn-lg pull-right" ng-click="saveTemplate()" ng-disabled="selectedCategories[0].principleList == '' || selectedCategories[0].principleList[0].questionnaireList == ''">Save Template</button>
+        </div>
+        <div class="clearfix"></div>
+        <div ng-repeat="list in selectedCategories"
+             class="col-md-4" style="min-height: 500px; margin-top: 10px">
+            <div class="dropzone panel panel-success">
+                <div class="panel-heading">{{list.catrgoryName}}</div>
+                <ul dnd-list="list.principleList" dnd-allowed-types="['principleType']">
+                    <!-- The dnd-draggable directive makes an element draggable and will
+                         transfer the object that was assigned to it. If an element was
+                         dragged away, you have to remove it from the original list
+                         yourself using the dnd-moved attribute -->
+                    <li ng-repeat="item in list.principleList"
+                        dnd-draggable="item"
+                        dnd-type="'removePrincipleType'"
+                        dnd-moved="list.principleList.splice($index, 1)"
+                        dnd-effect-allowed="move"
+                        dnd-selected="models.selected = item"
+                        ng-class="{'selected': models.selected === item}"
+                        style="cursor: pointer">
+                        <!--{{item.label}}-->
+
+                        <div class="container-element panel panel-warning">
+                            <div class="panel-heading">{{item.principleName}}</div>
+                            <ul dnd-list="item.questionnaireList"
+                                class="itemlist" dnd-allowed-types="['questionType']">
+                                <!-- The dnd-draggable directive makes an element draggable and will
+                                     transfer the object that was assigned to it. If an element was
+                                     dragged away, you have to remove it from the original list
+                                     yourself using the dnd-moved attribute -->
+                                <li ng-repeat="i in item.questionnaireList"
+                                    dnd-draggable="i"
+                                    dnd-type="'removeQuestionType'"
+                                    dnd-moved="item.questionnaireList.splice($index, 1)"
+                                    dnd-effect-allowed="move"
+                                    dnd-selected="models.selected = i"
+                                    ng-class="{'selected': models.selected === i}"
+                                    style="cursor: pointer">
+                                    {{i.name}}
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--{{modelAsJson}}-->
+
+</section>
