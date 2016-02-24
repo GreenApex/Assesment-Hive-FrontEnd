@@ -69,13 +69,24 @@ deskControllers.controller('templateEditController', ['$scope', '$window', 'getA
         });
 
 
-        $scope.getTemplateDetail = function(response){
-            $scope.templateName = response.templateName;
-            $scope.templateID = response.templateID;
-            $scope.transformForm = false;
+        $scope.getTemplateByTemplateID = function(tempId){
 
-            $scope.selectedCategories = response.categoryList;
+            getTemplateByTemplateID.save({templateID:tempId}, {
 
+            },function(response){
+                if (response.status == 0) {
+                    $scope.templateName = response.data.templateName;
+                    $scope.templateID = response.data.templateID;
+                    $scope.transformForm = false;
+                    $scope.selectedCategories = response.data.categoryList;
+                    $.toaster(response.message, 'Alert', 'success');
+                }
+                else {
+                    $.toaster(response.message, 'Alert', 'warning');
+                }
+            }, function () {
+                $.toaster("Connection Error", 'Alert', 'danger');
+            });
         }
 
         $scope.saveTemplate = function(){
