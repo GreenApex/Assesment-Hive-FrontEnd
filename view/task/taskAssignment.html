@@ -1,83 +1,73 @@
 <desk-header></desk-header>
+<style>
+
+    li {
+        margin-left: 20px;
+    }
+
+
+</style>
 
 <section class="container-fluid">
     <div class="container" style="margin-top: 100px">
-        <div class="panel panel-info">
-            <div class="panel-body">
-                <div class="col-md-4">
-                    <div class="dropdown material_dropdown ">
-                        <button class="dropdown-toggle material_dropdown_btn" type="button" id="dropdownMenu1"
-                                data-toggle="dropdown" aria-expanded="true">
-                            List Categories
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu material_dropdown_menu" role="menu" aria-labelledby="dropdownMenu1">
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel panel-heading">Templates</div>
+                <div class="panel-body">
+
+                    <ul id="tree" ng-repeat="task in roleList">
+                        <li>
+                            <label>
+                                <input type="checkbox" value="{{task.templateID}}"/>
+                                {{task.templateName}}</label>
+                            <ul ng-repeat="t in task.categoryList">
+                                <li>
+                                    <label>
+                                        <input type="checkbox" value="{{t.catrgoryID}}"/>
+                                        {{t.catrgoryName}}</label>
+                                    <ul ng-repeat="ta in t.principleList">
+                                        <li>
+                                            <label>
+                                                <input type="checkbox" value="{{ta.principleID}}"/>
+                                                {{ta.principleName}}</label>
+                                            <ul ng-repeat="tas in ta.questionnaireList">
+                                                <li>
+                                                    <label>
+                                                        <input type="checkbox" value="{{tas.qID}}"/>
+                                                        {{tas.name}}</label>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <!--<ul ng-repeat="t in task.categoryList">
                             <li>
-                                <input type="checkbox">
-                                <span> Used</span>
+                                <label>
+                                    <input type="checkbox" value="{{t.catrgoryID}}"/>
+                                    {{t.catrgoryName}}</label>
                             </li>
-                            <li>
-                                <input type="checkbox">
-                                <span> Nearly</span>
-                            </li>
-                            <li>
-                                <input type="checkbox">
-                                <span> New</span>
-                            </li>
-                        </ul>
-                    </div>
+                        </ul>-->
+                    </ul>
 
 
                 </div>
-                <div class="col-md-4">
-                    <div class="dropdown material_dropdown ">
-                        <button class="dropdown-toggle material_dropdown_btn" type="button" id="dropdownMenu2"
-                                data-toggle="dropdown" aria-expanded="true">
-                            List Principle
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu material_dropdown_menu" role="menu" aria-labelledby="dropdownMenu2">
-                            <li>
-                                <input type="checkbox">
-                                <span> Used</span>
-                            </li>
-                            <li>
-                                <input type="checkbox">
-                                <span> Nearly</span>
-                            </li>
-                            <li>
-                                <input type="checkbox">
-                                <span> New</span>
-                            </li>
-                        </ul>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="dropdown material_dropdown ">
-                        <button class="dropdown-toggle material_dropdown_btn" type="button" id="dropdownMenu3"
-                                data-toggle="dropdown" aria-expanded="true">
-                            List User
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu material_dropdown_menu" role="menu" aria-labelledby="dropdownMenu3">
-                            <li>
-                                <input type="checkbox">
-                                <span> Used</span>
-                            </li>
-                            <li>
-                                <input type="checkbox">
-                                <span> Nearly</span>
-                            </li>
-                            <li>
-                                <input type="checkbox">
-                                <span> New</span>
-                            </li>
-                        </ul>
-                    </div>
+
+
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel panel-heading">User</div>
+                <div class="panel-body">
                 </div>
-                <button type="button" class="btn btn-default material_btn material_btn_primary btn-block mrg80T ">Task Assign
-                </button>
             </div>
+        </div>
+        <div class="col-md-12">
+            <button type="button" class="btn btn-default material_btn material_btn_primary btn-block">Save</button>
+            <br>
+            <br>
         </div>
     </div>
 </section>
