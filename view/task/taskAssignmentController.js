@@ -1,47 +1,135 @@
 'use strict';
 
-deskControllers.controller('taskAssignmentController', ['$scope', '$window', 'getAllTemplates',
-    function ($scope, $window, getAllTemplates) {
+deskControllers.controller('taskAssignmentController', ['$scope', '$window', 'getAllTemplates', 'getAllPrincipal', 'getAllQuestionnarie', 'getAllUser', 'assignTask',
+    function ($scope, $window, getAllTemplates, getAllPrincipal, getAllQuestionnarie, getAllUser, assignTask) {
 
-        $("#loader").fadeOut();
+        $scope.taskList = [];
+        $scope.users = [];
 
-        $scope.heading = "Landing Page...";
-        $scope.roleList = [];
+        $scope.categories = [];
+        $scope.principle = [];
+        $scope.question = [];
+        $scope.templateData = [];
+
+        $scope.removeUser = [];
+        $scope.selectedCategories = [];
+        $scope.selectedPrinciple = [];
+        $scope.selectedQuestion = [];
+
         getAllTemplates.get(function (response) {
-            if(response.status == 0){
-               // $scope.roleList = response.data;
-                //alert(JSON.stringify($scope.roleList));
-                angular.forEach(response.data, function (value, key) {
-                    $scope.roleList.push(value);
+            //$("#loader").fadeIn();
+            if (response.status == 0) {
+                //$scope.templateData = response.data;
+                angular.forEach(response.data, function (templateValue, templateKey) {
+                    $scope.categories = [];
+                    angular.forEach(templateValue.categoryList, function (categoryValue, categoryKey) {
+                        $scope.principle = [];
+                        angular.forEach(categoryValue.principleList, function (principleValue, principleKey) {
+                            $scope.question = [];
+                            angular.forEach(principleValue.questionnaireList, function (QueValue, QueKey) {
+                                $scope.question.push({
+                                    qID: QueValue.qID,
+                                    name: QueValue.name,
+                                    comment: QueValue.comment,
+                                    rating: QueValue.rating,
+                                    principleName: principleValue.principleName,
+                                    catergoryName: categoryValue.catergoryName,
+                                    templateName: templateValue.templateName
+                                });
+                            });
+                            $scope.principle.push({
+                                principleID: principleValue.principleID,
+                                principleName: principleValue.principleName,
+                                catergoryName: categoryValue.catergoryName,
+                                templateName: templateValue.templateName,
+                                questionnaireList: $scope.question
+
+                            });
+                        });
+                        $scope.categories.push({
+                            catergoryID: categoryValue.catergoryID,
+                            catergoryName: categoryValue.catergoryName,
+                            templateName: templateValue.templateName,
+                            principleList: $scope.principle
+
+                        });
+                    });
+                    $scope.templateData.push({
+                        templateID: templateValue.templateID,
+                        templateName: templateValue.templateName,
+                        categoryList: $scope.categories
+                    });
+                });
+                console.log(JSON.stringify($scope.templateData));
+                getAllUser.get(function (response) {
+                    $("#loader").fadeOut("fast");
+                    if (response.status == 0) {
+                        angular.forEach(response.data, function (value, key) {
+                            $scope.users.push({
+                                userID: value.userID,
+                                userName: value.name,
+                                principleItem: [],
+                                categoryItem: []
+                            })
+                        });
+                    }
+                    else {
+                        $.toaster(response.message, 'Alert', 'warning');
+                    }
+                }, function () {
+                    $("#loader").fadeOut("fast");
+                    $.toaster("Connection Error", 'Alert', 'danger');
                 });
             }
-            else{
+            else {
                 $.toaster(response.message, 'Alert', 'warning');
             }
-        },function () {
+        }, function () {
             $.toaster("Connection Error", 'Alert', 'danger');
         });
 
-        $('#tree').checktree();
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-36251023-1']);
-        _gaq.push(['_setDomainName', 'jqueryscript.net']);
-        _gaq.push(['_trackPageview']);
+        $scope.assignTask = function(){
+           /* assignTask.save($scope.users,function(response){
+                if (response.status == 0) {
+                    $window.location.reload();
+                    $.toaster(response.message, 'Congratulation', 'success');
+                }
+                else {
+                    $.toaster(response.message, 'Alert', 'warning');
+                }
+            },function(){
+                $.toaster("Connection Error", 'Alert', 'danger');
+            })*/
+            alert(JSON.stringify($scope.users));
+        }
 
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
 
-               /* $scope.roleList1 = [{
-                                "roleName": "User", "roleId": "role1", "children": [{
-                                    "roleName": "subUser2", "roleId": "role12", "children": [{
-                                        "roleName": "subUser2-1-1", "roleId": "role1211", "children": []},
-                                        {
-                                            "roleName": "subUser2-1-2", "roleId": "role1212", "children": []
-                                        }]}]}];
 
-                //roleList1 to treeview
-                $scope.roleList = $scope.roleList1;*/
+        $scope.dragoverCallback = function (event, index, external, type) {
+            $scope.logListEvent('dragged over', event, index, external, type);
+            // Disallow dropping in the third row. Could also be done with dnd-disable-if.
+            return index;
+        };
+
+        $scope.dropCallback = function (event, index, item, external, type, allowedType) {
+            $scope.logListEvent('dropped at', event, index, external, type);
+            if (external) {
+                if (allowedType === 'itemType' && !item.label) return false;
+                if (allowedType === 'containerType' && !angular.isArray(item)) return false;
+            }
+            return item;
+        };
+
+        $scope.logEvent = function (message, event) {
+            console.log(message, '(triggered by the following', event.type, 'event)');
+            console.log(event);
+        };
+
+        $scope.logListEvent = function (action, event, index, external, type) {
+            var message = external ? 'External ' : '';
+            message += type + ' element is ' + action + ' position ' + index;
+            $scope.logEvent(message, event);
+        };
+
+
     }]);

@@ -1,73 +1,116 @@
 <desk-header></desk-header>
 <style>
-
     li {
         margin-left: 20px;
     }
-
-
 </style>
 
 <section class="container-fluid">
     <div class="container" style="margin-top: 100px">
-        <div class="col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel panel-heading">Templates</div>
+        <div class="col-md-6" style="max-height: 550px; overflow-y: scroll">
+            <div class="panel panel-primary"
+                 ng-repeat="template in templateData"
+                 style="cursor: pointer">
+                <div class="panel panel-heading">{{template.templateName}}</div>
                 <div class="panel-body">
-
-                    <ul id="tree" ng-repeat="task in roleList">
-                        <li>
-                            <label>
-                                <input type="checkbox" value="{{task.templateID}}"/>
-                                {{task.templateName}}</label>
-                            <ul ng-repeat="t in task.categoryList">
-                                <li>
-                                    <label>
-                                        <input type="checkbox" value="{{t.catrgoryID}}"/>
-                                        {{t.catrgoryName}}</label>
-                                    <ul ng-repeat="ta in t.principleList">
-                                        <li>
-                                            <label>
-                                                <input type="checkbox" value="{{ta.principleID}}"/>
-                                                {{ta.principleName}}</label>
-                                            <ul ng-repeat="tas in ta.questionnaireList">
-                                                <li>
-                                                    <label>
-                                                        <input type="checkbox" value="{{tas.qID}}"/>
-                                                        {{tas.name}}</label>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <!--<ul ng-repeat="t in task.categoryList">
-                            <li>
-                                <label>
-                                    <input type="checkbox" value="{{t.catrgoryID}}"/>
-                                    {{t.catrgoryName}}</label>
-                            </li>
-                        </ul>-->
-                    </ul>
-
-
-                </div>
+                    <div ng-repeat="list in template.categoryList"
+                         dnd-draggable="list"
+                         dnd-type="'categoryType'"
+                         dnd-effect-allowed="copy"
+                         dnd-selected="models.selected = list"
+                         ng-class="{'selected': models.selected === list}"
+                         style="cursor: pointer">
+                        <div class="dropzone panel panel-success">
+                            <div class="panel-heading">{{list.catergoryName}}</div>
+                            <div class="panel-body" >
+                                <ul dnd-allowed-types="['questionType']">
+                                    <li ng-repeat="item in list.principleList"
+                                        dnd-draggable="item"
+                                        dnd-type="'principleType'"
+                                        dnd-effect-allowed="copy"
+                                        dnd-selected="models.selected = item"
+                                        ng-class="{'selected': models.selected === item}"
+                                        style="cursor: pointer">
+                                        <div class="container-element panel panel-warning">
+                                            <div class="panel-heading">{{item.principleName}}</div>
+                                            <div class="panel-body">
+                                                <ul class="itemlist">
+                                                    <li ng-repeat="i in item.questionnaireList">
+                                                        {{i.name}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-
-        <div class="col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel panel-heading">User</div>
-                <div class="panel-body">
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
-            <button type="button" class="btn btn-default material_btn material_btn_primary btn-block">Save</button>
-            <br>
-            <br>
+        <div class="col-md-6">
+            <div class="panel panel-primary"
+                 ng-repeat="i in users">
+                <div class="panel-heading">{{i.userName}}</div>
+                <div class="panel-body">
+                    <div class="col-md-6" dnd-list="i.principleItem" dnd-allowed-types="['principleType']">
+                        <div class="panel-heading">Principle</div>
+                        <ul>
+                            <li ng-repeat="item in i.principleItem"
+                                style="cursor: pointer"
+                                dnd-draggable="item"
+                                dnd-type="'itemType'"
+                                dnd-moved="i.principleItem.splice($index, 1)"
+                                dnd-effect-allowed="move"
+                                dnd-selected="models.selected = item">
+                                <div class="container-element panel panel-warning">
+                                    <div class="panel-heading" >
+                                        <span ng-if="item.templateName != ''">{{item.templateName}}</span>
+                                        <span ng-if="item.templateName != '' && item.catergoryName != ''"> > {{item.catergoryName}}</span>
+                                        <span ng-if="item.templateName != '' && item.catregoryName != '' && item.principleName != ''"> > {{item.principleName}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6" dnd-list="i.categoryItem" dnd-allowed-types="['categoryType']">
+                        <div class="panel-heading">Category</div>
+                        <ul>
+                            <li ng-repeat="item in i.categoryItem"
+                                style="cursor: pointer"
+                                dnd-draggable="item"
+                                dnd-type="'itemType'"
+                                dnd-moved="i.categoryItem.splice($index, 1)"
+                                dnd-effect-allowed="move"
+                                dnd-selected="models.selected = item">
+                                <div class="container-element panel panel-warning">
+                                    <div class="panel-heading" >
+                                        <span ng-if="item.templateName != ''">{{item.templateName}}</span>
+                                        <span ng-if="item.templateName != '' && item.catergoryName != ''"> > {{item.catergoryName}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-danger">
+                <div class="panel-heading">Remove List</div>
+                <ul dnd-list="removeUser" dnd-allowed-types="['itemType']" class="list-group"
+                    style="max-height: 200px; overflow-y: scroll;">
+                    <li ng-repeat="item in removeUser"
+                        class="list-group-item" style="cursor: pointer">
+                        <!--{{item.label}}-->
+                        {{item}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-success" ng-click="assignTask()">Save</button>
         </div>
     </div>
 </section>

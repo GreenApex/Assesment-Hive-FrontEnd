@@ -73,14 +73,14 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">Questionnaire</div>
                 <ul class="list-group-item" style="max-height: 200px; overflow-y: scroll;">
-                    <li ng-repeat="i in question"
-                        dnd-draggable="i"
+                    <li ng-repeat="que in question"
+                        dnd-draggable="que"
                         dnd-type="'questionType'"
                         dnd-effect-allowed="copy"
-                        dnd-selected="models.selected = i"
-                        ng-class="{'list-group-item-success': models.selected === i}"
+                        dnd-selected="models.selected = que"
+                        ng-class="{'list-group-item-success': models.selected === que}"
                             class="list-group-item" style="cursor: pointer">
-                        {{i.name}}
+                        {{que.name}}
                     </li>
                 </ul>
             </div>
@@ -94,7 +94,7 @@
         <div class="clearfix"></div>
         <div ng-repeat="list in selectedCategories" class="col-md-4" style="min-height: 500px; margin-top: 10px">
             <div class="dropzone panel panel-success">
-                <div class="panel-heading">{{list.catrgoryName}}</div>
+                <div class="panel-heading">{{list.catergoryName}}</div>
                 <ul dnd-list="list.principleList" dnd-allowed-types="['principleType']">
                     <!-- The dnd-draggable directive makes an element draggable and will
                          transfer the object that was assigned to it. If an element was
@@ -115,16 +115,13 @@
                             <ul dnd-list="item.questionnaireList"
                                 class="itemlist"
                                 dnd-allowed-types="['questionType']">
-                                <!-- The dnd-draggable directive makes an element draggable and will
-                                     transfer the object that was assigned to it. If an element was
-                                     dragged away, you have to remove it from the original list
-                                     yourself using the dnd-moved attribute -->
                                 <li ng-repeat="i in item.questionnaireList"
                                     dnd-draggable="i"
                                     dnd-type="'questionType'"
                                     dnd-moved="item.questionnaireList.splice($index, 1)"
                                     dnd-effect-allowed="move"
                                     dnd-selected="models.selected = i"
+                                    dnd-disable-if="i == questionType "
                                     ng-class="{'selected': models.selected === i}"
                                     style="cursor: pointer">
                                     {{i.name}}
@@ -137,5 +134,4 @@
         </div>
     </div>
 <!--{{modelAsJson}}-->
-
 </section>

@@ -20,8 +20,8 @@ deskControllers.controller('templateCreateController', ['$scope', '$window', 'ge
         $scope.selectCheckboxFunction = function (flag, data) {
             if (flag == true) {
                 $scope.selectedCategories.push({
-                    catrgoryID: data.catrgoryID,
-                    catrgoryName: data.catrgoryName,
+                    catergoryID: data.catrgoryID,
+                    catergoryName: data.catrgoryName,
                     principleList: []
                 });
 
@@ -34,8 +34,8 @@ deskControllers.controller('templateCreateController', ['$scope', '$window', 'ge
                 angular.forEach(alternative, function (value, key) {
                     if (value.catrgoryID != data.catrgoryID) {
                         $scope.selectedCategories.push({
-                            catrgoryID: value.catrgoryID,
-                            catrgoryName: value.catrgoryName,
+                            catergoryID: value.catrgoryID,
+                            catergoryName: value.catrgoryName,
                             principleList: []
                         });
                     }
@@ -186,7 +186,7 @@ deskControllers.controller('templateCreateController', ['$scope', '$window', 'ge
             },function(response){
                 if (response.status == 0) {
                     $.toaster(response.message, 'Alert', 'success');
-                    $window.location.reload();
+                    $window.location.href = "#/templateEdit"
                 }
                 else {
                     $.toaster(response.message, 'Alert', 'warning');

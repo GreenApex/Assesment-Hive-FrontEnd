@@ -82,6 +82,17 @@ deskServices.factory('getTemplateByTemplateID', ['$resource', 'webAppConstant',
         });
     }]);
 
+//----------------------------------------------------------------- Counter
+
+deskServices.factory('getCounts', ['$resource', 'webAppConstant',
+    function ($resource, webAppConstant) {
+        return $resource(webAppConstant + 'desk/:verb', {verb: 'getCounts', userID:'@userID'}, {
+            query: {method: "GET"}
+        });
+    }]);
+
+//----------------------------------------------------------------- Assign Task
+
 
 
 

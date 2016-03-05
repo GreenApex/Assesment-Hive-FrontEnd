@@ -1,9 +1,9 @@
 'use strict';
 
-deskControllers.controller('templateEditController', ['$scope', '$window', 'getAllTemplates', 'getTemplateByTemplateID', 'getAllCategories', 'getAllPrincipal', 'getAllQuestionnarie', 'updateTemplate',
+deskControllers.controller('templateAllDisplayController', ['$scope', '$window', 'getAllTemplates', 'getTemplateByTemplateID', 'getAllCategories', 'getAllPrincipal', 'getAllQuestionnarie', 'updateTemplate',
     function ($scope, $window, getAllTemplates, getTemplateByTemplateID, getAllCategories, getAllPrincipal, getAllQuestionnarie, updateTemplate) {
 
-
+        $("#loader").fadeOut();
 
         $scope.categories = [];
         $scope.principle = [];
@@ -21,7 +21,6 @@ deskControllers.controller('templateEditController', ['$scope', '$window', 'getA
         $scope.transformForm = true;
 
         getAllTemplates.get(function (response) {
-            $("#loader").fadeOut();
             if(response.status == 0){
                 $scope.templateData = response.data;
                 getAllPrincipal.get(function (response) {
@@ -66,17 +65,14 @@ deskControllers.controller('templateEditController', ['$scope', '$window', 'getA
                 $.toaster(response.message, 'Alert', 'warning');
             }
         },function () {
-            $("#loader").fadeOut();
             $.toaster("Connection Error", 'Alert', 'danger');
         });
 
 
         $scope.getTemplateByTemplateID = function(tempId){
-            $("#loader").fadeIn();
-            getTemplateByTemplateID.save({templateID:tempId}, {
 
+            getTemplateByTemplateID.save({templateID:tempId}, {
             },function(response){
-                $("#loader").fadeOut();
                 if (response.status == 0) {
                     $scope.templateName = response.data.templateName;
                     $scope.templateID = response.data.templateID;
@@ -88,28 +84,24 @@ deskControllers.controller('templateEditController', ['$scope', '$window', 'getA
                     $.toaster(response.message, 'Alert', 'warning');
                 }
             }, function () {
-                $("#loader").fadeOut();
                 $.toaster("Connection Error", 'Alert', 'danger');
             });
         }
 
         $scope.saveTemplate = function(){
-            $("#loader").fadeIn();
-            updateTemplate.save({"templateID":$scope.templateID},{
+            updateTemplate.save({
                 "templateID":$scope.templateID,
                 "templateName": $scope.templateName,
                 "categoryList": $scope.selectedCategories
             },function(response){
-                $("#loader").fadeOut();
                 if (response.status == 0) {
                     $.toaster(response.message, 'Alert', 'success');
-                    $window.location.reload();
+                    $window.location.href = "#/templateAllDisplay"
                 }
                 else {
                     $.toaster(response.message, 'Alert', 'warning');
                 }
             }, function () {
-                $("#loader").fadeOut();
                 $.toaster("Connection Error", 'Alert', 'danger');
             });
         }

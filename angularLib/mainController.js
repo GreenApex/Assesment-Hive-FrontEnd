@@ -6,7 +6,7 @@ angular.element(document).ready(function () {
 //module for myApp decide route/controller/service/directive
 var deskApp = angular.module('myApp', ['ngCookies','ngRoute', 'myControllers', 'myServices', 'dndLists', 'xeditable', 'high-chart', 'angularTreeview']);
 
-deskApp.constant('webAppConstant', 'http://192.168.0.100:8080/Asad/');
+deskApp.constant('webAppConstant', 'http://192.168.0.112:8080/Asad/');
 
 deskApp.config(['$routeProvider',
     function ($routeProvider) {
@@ -47,6 +47,13 @@ deskApp.config(['$routeProvider',
                     requiresBackground: false,
                 }
             })
+            /*.when('/templateAllDisplay', {
+                templateUrl: 'view/template/templateAllDisplay.html',
+                controller: 'templateAllDisplayController',
+                access: {
+                    requiresBackground: false,
+                }
+            })*/
             .when('/assessmentForm', {
                 templateUrl: 'view/assessment/assessmentForm.html',
                 controller: 'assessmentFormController',
@@ -175,105 +182,9 @@ deskApp.config(['$routeProvider',
                     $("#pageWrapper").fadeIn();
                 }
             }
-
-            /*var authorised;
-             if (next.access !== undefined) {
-             authorised = authorization.authorize(next.access.loginRequired,
-             next.access.permissions,
-             next.access.permissionCheckType);
-             if (authorised === jcs.modules.auth.enums.authorised.loginRequired) {
-             $location.path(jcs.modules.auth.routes.login);
-             } else if (authorised === jcs.modules.auth.enums.authorised.notAuthorised) {
-             $location.path(jcs.modules.auth.routes.notAuthorised).replace();
-             }
-             }*/
         });
 
     });
-
-
-/*.run(function ($rootScope, $location, getSession, removeSession) {
- $rootScope.$on("$routeChangeStart", function (event, next, current) {
- $rootScope.authenticated = false;
- getSession.get(function (results) {
- if (results.userName) {
- $rootScope.authenticated = true;
-
- if(results.userType == "user"){
- var currentUrl = next.$$route.originalPath;
- if (currentUrl == '/addEditEvent') {
- $location.path("/home");
- }
- else if (currentUrl == '/addEditProduct') {
- $location.path("/home");
- }
- if (currentUrl == '/login') {
- $location.path("/home");
- }
- }
- else if(results.userType == "vendor"){
- /!*var currentUrl = next.$$route.originalPath;
- if (currentUrl == '/productList') {
- $location.path("/home");
- }
- else if (currentUrl == '/productDetail') {
- $location.path("/home");
- }
- if (currentUrl == '/login') {
- $location.path("/home");
- }*!/
-
- removeSession.get(function (response) {
- $.toaster('Vandor not allow Try with user', 'Alert', 'danger');
- $location.path("/login");
- $("#loader").fadeOut();
- });
- }
-
- /!*if (results.lattitude != "" && results.longitude != "") {
- var currentUrl = next.$$route.originalPath;
- if (currentUrl == '/userProfile') {
- $location.path("/productList?searchkey=&cuisine=&ingredient=&type=&nearBy=");
- }
- }
- else {
- $location.path("/productList?searchkey=&cuisine=&ingredient=&type=&nearBy=");
- }*!/
- }
- else {
- var nextUrl = next.$$route.originalPath;
-
- if (nextUrl == '/login' || nextUrl == '/home') {
- }
- else {
- $location.path("/login");
- }
- }
- });
- });
- });*/
-
-/*deskApp.animation('.repeat-animation', [function () {
- return {
- // make note that other events (like addClass/removeClass)
- // have different function input parameters
- enter: function (element, doneFn) {
- jQuery(element).fadeIn(5000, doneFn);
-
- // remember to call doneFn so that angular
- // knows that the animation has concluded
- },
-
- move: function (element, doneFn) {
- jQuery(element).fadeIn(5000, doneFn);
- },
-
- leave: function (element, doneFn) {
- jQuery(element).fadeOut(5000, doneFn);
- }
- }
- }]);*/
-
 
 var deskControllers = angular.module('myControllers', []);
 

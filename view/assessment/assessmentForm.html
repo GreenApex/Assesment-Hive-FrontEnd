@@ -5,7 +5,11 @@
 </script>
 <section class="container-fluid">
     <div class="asessmentFormWrapper">
-        <div class="panel panel_border">
+        <a href="" ng-click="getCategoriesFunction()"> Back to main Category</a>
+        <div class="row">
+            <button class="repeatAnimation btn btn-{{categoryColor}}" ng-repeat="data in templateData" style="margin: 10px; height: 100px; width: 100px" ng-click="dataChange(data)" >{{data.templateName}}</button>
+        </div>
+        <!--<div class="panel panel_border">
             <div class="panel-heading panel_blue">
                 Self Assessment Form Screen
             </div>
@@ -51,7 +55,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 
 </section>

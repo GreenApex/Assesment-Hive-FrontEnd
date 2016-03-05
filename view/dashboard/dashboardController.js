@@ -1,21 +1,27 @@
 'use strict';
 
-deskControllers.controller('dashboardController', ['$scope', '$window', '$cookies',
-    function ($scope, $window, $cookies) {
+deskControllers.controller('dashboardController', ['$scope', '$window', '$cookies', 'getCounts',
+    function ($scope, $window, $cookies, getCounts) {
 
-        $("#loader").fadeOut();
+        var userData = $cookies.getObject('userData');
 
-        $scope.heading = "Landing Page...";
+        if (userData) {
+            console.log(JSON.stringify(userData));
+            getAllData();
+        }
+        else {
+            $.toaster('User ID Not Found', 'Alert', 'danger');
+        }
 
-        /*getKeyList.get(function(response){
-         if(response.status == 0){
-         $scope.keylist = response.data;
-         }
-         else{
-         $.toaster(response.message, 'Alert', 'warning');
-         }
-         });*/
-
-
-
+        function getAllData() {
+            getCounts.get({userID:userData.userID},function (response) {
+                $("#loader").fadeOut();
+                if (response.status == 0) {
+                    $scope.counterData = response.data
+                }
+                else {
+                    $.toaster(response.message, 'Alert', 'danger');
+                }
+            });
+        }
     }]);

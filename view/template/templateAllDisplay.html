@@ -1,31 +1,32 @@
 <desk-header></desk-header>
-<section class="container" style="margin-top: 100px" ng-show="transformForm">
+
+<section class="container" style="margin-top: 100px"  ng-show="transformForm">
     <table class="table table-responsive">
         <thead>
-            <tr>
-                <th>
-                    Template Name
-                </th>
-                <th>
-                    Edit
-                </th>
-            </tr>
+        <tr>
+            <th>
+                Template Name
+            </th>
+            <th>
+                Edit
+            </th>
+        </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="data in templateData">
-                <td>
-                    {{data.templateName}}
-                </td>
-                <td>
-                    <a href="" class="btn material_btn_primary btn-lg" ng-click="getTemplateByTemplateID(data.templateID);">Detail</a>
-                </td>
-            </tr>
+        <tr ng-repeat="data in templateData">
+            <td>
+                {{data.templateName}}
+            </td>
+            <td>
+                <a href="" class="btn material_btn_primary btn-lg" ng-click="getTemplateByTemplateID(data.templateID);">Detail</a>
+            </td>
+        </tr>
         </tbody>
     </table>
 </section>
 
 <section class="container" ng-hide="transformForm" style="margin-top: 50px">
-  <div class="container bg-info" style="padding: 20px">
+    <div class="container bg-info" style="padding: 20px">
         <div class="col-md-4">
             <div class="panel panel-warning">
                 <div class="panel-heading">Principle</div>

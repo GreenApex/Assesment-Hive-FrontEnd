@@ -31,25 +31,27 @@ deskControllers.controller('assignUserController', ['$scope', '$window', '$locat
                         })
                     });
 
-                    getAllUser.get(function (response) {
-                        if (response.status == 0) {
-                            angular.forEach(response.data, function(value, key){
-                                $scope.users.push({
-                                    memberID: value.userID,
-                                    memberName: value.name
-                                })
-                            });
-                            $("#loader").fadeOut("fast");
 
-                        }
-                        else {
-                            $("#loader").fadeOut("fast");
+                }
+                else {
+                    $("#loader").fadeOut("fast");
 
-                            $.toaster(response.message, 'Alert', 'warning');
-                        }
-                    }, function () {
-                        $.toaster("Connection Error", 'Alert', 'danger');
+                    $.toaster(response.message, 'Alert', 'warning');
+                }
+            }, function () {
+                $.toaster("Connection Error", 'Alert', 'danger');
+            });
+
+            getAllUser.get(function (response) {
+                if (response.status == 0) {
+                    angular.forEach(response.data, function(value, key){
+                        $scope.users.push({
+                            memberID: value.userID,
+                            memberName: value.name
+                        })
                     });
+                    $("#loader").fadeOut("fast");
+
                 }
                 else {
                     $("#loader").fadeOut("fast");

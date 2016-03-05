@@ -11,3 +11,10 @@ deskServices.factory('getAllRegisterUser', ['$resource', 'webAppConstant',
             query: {method: "GET"}
         });
     }]);
+
+deskServices.factory('deleteUsers', ['$resource', 'webAppConstant',
+    function ($resource, webAppConstant) {
+        return $resource(webAppConstant + 'user/:verb', {verb: 'deleteUsers', email:'@email'}, {
+            query: {method: "GET"}
+        });
+    }]);

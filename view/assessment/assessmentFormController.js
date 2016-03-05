@@ -1,7 +1,7 @@
 'use strict';
 
-deskControllers.controller('assessmentFormController', ['$scope', '$window', 'getAllCategories', 'getAllPrincipal', 'getAllQuestionnarie', 'createTemplate',
-    function ($scope, $window, getAllCategories, getAllPrincipal, getAllQuestionnarie, createTemplate) {
+deskControllers.controller('assessmentFormController', ['$scope', '$window', 'getAllCategories', 'getAllPrincipal', 'getAllQuestionnarie', 'getAllTemplates',
+    function ($scope, $window, getAllCategories, getAllPrincipal, getAllQuestionnarie, getAllTemplates) {
 
         getAllData();
 
@@ -12,95 +12,26 @@ deskControllers.controller('assessmentFormController', ['$scope', '$window', 'ge
         $scope.question = [];
         $scope.selectedCategories = [];
 
+        $scope.usersData = [];
+
+
         $scope.transformForm = true;
 
         $scope.checkBoxSelection = true;
 
-
-        $scope.selectCheckboxFunction = function (flag, data) {
-            if (flag == true) {
-                $scope.selectedCategories.push({
-                    catrgoryID: data.catrgoryID,
-                    catrgoryName: data.catrgoryName,
-                    principleList: []
-                });
-
-                $scope.checkBoxSelection = false;
-            }
-            else {
-                var alternative = $scope.selectedCategories;
-                $scope.selectedCategories = [];
-
-                angular.forEach(alternative, function (value, key) {
-                    if (value.catrgoryID != data.catrgoryID) {
-                        $scope.selectedCategories.push({
-                            catrgoryID: value.catrgoryID,
-                            catrgoryName: value.catrgoryName,
-                            principleList: []
-                        });
-                    }
-                    else{
-                        $scope.checkBoxSelection = true;
-                    }
-                });
-            }
-        }
-
         function getAllData() {
-
-            $scope.users = [];
-
-            getAllCategories.get(function (response) {
+            getAllTemplates.get(function (response) {
                 $("#loader").fadeOut();
-
                 if (response.status == 0) {
-                    $scope.categoriesTitle = response.data
+                    $scope.usersData = response.data
                 }
                 else {
                     $.toaster(response.message, 'Alert', 'warning');
                 }
             }, function () {
+                $("#loader").fadeOut();
                 $.toaster("Connection Error", 'Alert', 'danger');
             });
-
-            getAllPrincipal.get(function (response) {
-
-                if (response.status == 0) {
-
-                    angular.forEach(response.data, function(value, key){
-                        $scope.principle.push({
-                            principleID: value.principleID,
-                            principleName: value.principleName,
-                            questionnaireList: []
-                        })
-                    })
-
-
-                }
-                else {
-                    $.toaster(response.message, 'Alert', 'warning');
-                }
-            }, function () {
-                $.toaster("Connection Error", 'Alert', 'danger');
-            });
-
-            getAllQuestionnarie.get(function (response) {
-
-                if (response.status == 0) {
-                    angular.forEach(response.data, function(value, key){
-                        $scope.question.push({
-                            qID: value.questionnaireID,
-                            name: value.questionnaire,
-                        })
-                    })
-                }
-                else {
-                    $.toaster(response.message, 'Alert', 'warning');
-                }
-            }, function () {
-                $.toaster("Connection Error", 'Alert', 'danger');
-            });
-
         }
 
 
@@ -174,9 +105,8 @@ deskControllers.controller('assessmentFormController', ['$scope', '$window', 'ge
             $scope.logEvent(message, event);
         };
 
-        $scope.Finalmodel = {
-            "templateName": $scope.templateName,
-            "categoryList": $scope.modelAsJson
+        $scope.dataChange = function(data){
+            $scope.usersData = data
         };
 
         $scope.saveTemplate = function(){

@@ -1,7 +1,7 @@
 'use strict';
 
-deskControllers.controller('registerUserController', ['$scope', '$window','$filter','$http', 'registerUser', 'getAllRegisterUser',
-    function ($scope, $window, $filter, $http, registerUser, getAllRegisterUser)  {
+deskControllers.controller('registerUserController', ['$scope', '$window','$filter','$http', 'registerUser', 'getAllRegisterUser','deleteUsers',
+    function ($scope, $window, $filter, $http, registerUser, getAllRegisterUser, deleteUsers)  {
 
         $scope.heading = "Landing Page...";
 
@@ -23,7 +23,7 @@ deskControllers.controller('registerUserController', ['$scope', '$window','$filt
                     $.toaster("Register User Successfully", 'Congratulation', 'success');
                 }
                 else {
-                    $.toaster(response.message, 'Congratulation', 'success');
+                    $.toaster(response.message, 'Alert', 'warning');
                 }
             }, function () {
                 $("#loader").fadeOut();
@@ -32,6 +32,26 @@ deskControllers.controller('registerUserController', ['$scope', '$window','$filt
             $scope.userName = "";
             $scope.userEmail = "";
             $scope.userPassword = "";
+        };
+
+        $scope.removeUser = function (email) {
+            $("#loader").fadeIn();
+            deleteUsers.get({
+                "email": email,
+            }, function (response) {
+                $("#loader").fadeOut();
+                if (response.status == 0) {
+                    getAllRegisterUsers();
+                    $.toaster("Delete User Successfully", 'Congratulation', 'success');
+                }
+                else {
+                    $.toaster(response.message, 'Alert', 'warning');
+                }
+            }, function () {
+                $("#loader").fadeOut();
+                $.toaster("Connection Error", 'Alert', 'danger');
+            });
+
         };
 
 
