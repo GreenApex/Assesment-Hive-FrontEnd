@@ -1,11 +1,7 @@
 'use strict';
 
-deskControllers.controller('assessmentFormController', ['$scope', '$window', 'getAllCategories', 'getAllPrincipal', 'getAllQuestionnarie', 'getAllTemplates',
-    function ($scope, $window, getAllCategories, getAllPrincipal, getAllQuestionnarie, getAllTemplates) {
-
-        getAllData();
-
-        $scope.heading = "Landing Page...";
+deskControllers.controller('assessmentFormController', ['$scope', '$window', 'getMyTask', '$cookies', 'saveSurveyResult', 'getAllTemplates',
+    function ($scope, $window, getMyTask, $cookies, saveSurveyResult, getAllTemplates) {
 
         $scope.categoriesTitle = [];
         $scope.principle = [];
@@ -13,17 +9,110 @@ deskControllers.controller('assessmentFormController', ['$scope', '$window', 'ge
         $scope.selectedCategories = [];
 
         $scope.usersData = [];
+        $scope.userSelectedData = [];
+        $scope.userSelectedQue = [];
+
+        $scope.fileUploadData = "";
 
 
         $scope.transformForm = true;
+        $scope.appendForm = true;
 
-        $scope.checkBoxSelection = true;
+
+        var userData = $cookies.getObject('userData');
+
+        if (userData) {
+            getAllData();
+        }
+        else {
+        }
+
+
+        $scope.assesmentForm = function(data){
+            $scope.transformForm = false;
+            $scope.userSelectedData = data.principleList
+            //$scope.userSelectedData.push({catergoryName:catergoryName});
+        }
+
+        $scope.selectedChange = function(data){
+            $scope.appendForm = false;
+            $scope.userSelectedQue = data
+           // $scope.userSelectedQue.push({principleName:principleName});
+
+        }
+
+        $('body').on('change', '#image', function (e) {
+            e.preventDefault();
+            var formData = new FormData($(this).parents('form')[0]);
+            $.ajax({
+                url: 'php/uploadImages.php',
+                type: 'POST',
+                xhr: function () {
+                    var myXhr = $.ajaxSettings.xhr();
+                    return myXhr;
+                },
+                success: function (data) {
+                    var obj = JSON.parse(data);
+                    if (obj.error == 0) {
+                        $scope.fileUploadData = "uploadedFiles/" + obj.fileName;
+                    }
+                    else {
+                    }
+                },
+                error: function (data) {
+                },
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+            return false;
+        });
+
+
+        $scope.fileUpload = function(){
+            if ($scope.fileUploadData != "") {
+                $.toaster("File Uploaded", 'Congratulation', 'success');
+                return "uploadedFiles/"+$scope.fileUploadData;
+            }
+            else {
+                $.toaster("File Not Uploaded", 'Alert', 'danger');
+            }
+        }
+
+        $scope.saveAssessment = function(){
+            $("#loader").fadeIn("fast");
+            saveSurveyResult.save({userid:userData.userID},$scope.userSelectedQue,function(response){
+                if (response.status == 0) {
+                    $("#loader").fadeOut("fast");
+                    $.toaster(response.message, 'Congratulation', 'success');
+                    //$window.location.reload();
+                    $scope.transformForm = true;
+                    $scope.appendForm = true;
+                }
+                else {
+                    $("#loader").fadeOut("fast");
+                    $.toaster(response.message, 'Alert', 'warning');
+                }
+            }, function () {
+                $("#loader").fadeOut("fast");
+                $.toaster("Connection Error", 'Alert', 'danger');
+            });
+        }
 
         function getAllData() {
-            getAllTemplates.get(function (response) {
+            getMyTask.get({userID:userData.userID},function (response) {
                 $("#loader").fadeOut();
                 if (response.status == 0) {
-                    $scope.usersData = response.data
+                    angular.forEach(response.data.categoryList, function (value, key) {
+                        $scope.usersData.push({
+                            catergoryID: value.catergoryID,
+                            catergoryName: value.catergoryName,
+                            templateName: value.templateName,
+                            principleList: value.principleList
+                        });
+                    });
+
                 }
                 else {
                     $.toaster(response.message, 'Alert', 'warning');
@@ -34,96 +123,14 @@ deskControllers.controller('assessmentFormController', ['$scope', '$window', 'ge
             });
         }
 
+        $scope.$watch("fileUploadData", function(newValue) {
+            $scope.fileUploadData = newValue;
+            console.log("rvd" + JSON.stringify(newValue));
+        });
 
         $scope.categoryColor = "primary";
         $scope.showModal = false;
 
 
-        /* $scope.categoryChange = function (value) {
-         //alert(JSON.stringify(value));
-         $scope.categories == "" ? $scope.categoryColor = "primary" : $scope.categoryColor = "danger";
-         if(value[0].value !== undefined){
-         $scope.subCategories = "";
-         $scope.showModal = false
-         }
-         else{
-         $scope.subCategories = value;
-         $scope.showModal = true
-         }
-         $scope.categories = value
-         };
-
-         $scope.getCategoriesFunction =  function() {
-         getCategories.get(function (response) {
-         $scope.categories = response.data;
-         $scope.categoryColor = "primary";
-         $scope.subCategories = "";
-         });
-         };*/
-
-        /*$scope.models = {
-         selected: null,
-         lists: {"A": [], "B": []}
-         };
-
-         // Generate initial model
-         for (var i = 1; i <= 3; ++i) {
-         $scope.models.lists.A.push({label: "Item A" + i});
-         $scope.models.lists.B.push({label: "Item B" + i});
-         }
-
-         // Model to JSON for demo purpose
-         */
-
-        $scope.$watch('selectedCategories', function(selectedCategories) {
-            $scope.modelAsJson = angular.toJson(selectedCategories, true);
-        }, true);
-
-        $scope.dragoverCallback = function (event, index, external, type) {
-            $scope.logListEvent('dragged over', event, index, external, type);
-            // Disallow dropping in the third row. Could also be done with dnd-disable-if.
-            return index;
-        };
-
-        $scope.dropCallback = function (event, index, item, external, type, allowedType) {
-            $scope.logListEvent('dropped at', event, index, external, type);
-            if (external) {
-                if (allowedType === 'itemType' && !item.label) return false;
-                if (allowedType === 'containerType' && !angular.isArray(item)) return false;
-            }
-            return item;
-        };
-
-        $scope.logEvent = function (message, event) {
-            console.log(message, '(triggered by the following', event.type, 'event)');
-            console.log(event);
-        };
-
-        $scope.logListEvent = function (action, event, index, external, type) {
-            var message = external ? 'External ' : '';
-            message += type + ' element is ' + action + ' position ' + index;
-            $scope.logEvent(message, event);
-        };
-
-        $scope.dataChange = function(data){
-            $scope.usersData = data
-        };
-
-        $scope.saveTemplate = function(){
-            createTemplate.save({
-                "templateName": $scope.templateName,
-                "categoryList": $scope.selectedCategories
-            },function(response){
-                if (response.status == 0) {
-                    $.toaster(response.message, 'Alert', 'success');
-                    $window.location.reload();
-                }
-                else {
-                    $.toaster(response.message, 'Alert', 'warning');
-                }
-            }, function () {
-                $.toaster("Connection Error", 'Alert', 'danger');
-            });
-        }
 
     }]);

@@ -91,8 +91,20 @@ deskServices.factory('getCounts', ['$resource', 'webAppConstant',
         });
     }]);
 
-//----------------------------------------------------------------- Assign Task
+//----------------------------------------------------------------- Assessment
 
+deskServices.factory('saveSurveyResult', ['$resource', 'webAppConstant',
+    function ($resource, webAppConstant) {
+        return $resource(webAppConstant + 'desk/:verb', {verb: 'saveSurveyResult', userid:'@userid'}, {
+            query: {method: "POST"}
+        });
+    }]);
 
+//----------------------------------------------------------------- Assessment
 
-
+deskServices.factory('getReport', ['$resource', 'webAppConstant',
+    function ($resource, webAppConstant) {
+        return $resource(webAppConstant + 'reports/:verb', {verb: 'getReport', categoryName:'@categoryName', principleName:'@principleName', startDate:'@startDate', endDate:'@endDate'}, {
+            query: {method: "GET"}
+        });
+    }]);

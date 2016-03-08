@@ -1,6 +1,6 @@
 deskServices.factory('getMyTask', ['$resource', 'webAppConstant',
     function ($resource, webAppConstant) {
-        return $resource(webAppConstant + 'task/:verb', {verb: 'getMyTask', userID:'@userID'
+        return $resource(webAppConstant + 'task/:verb', {verb: 'getMyTasks', userID:'@userID'
             }, {
             query: {method: "GET"}
         });

@@ -6,7 +6,7 @@ angular.element(document).ready(function () {
 //module for myApp decide route/controller/service/directive
 var deskApp = angular.module('myApp', ['ngCookies','ngRoute', 'myControllers', 'myServices', 'dndLists', 'xeditable', 'high-chart', 'angularTreeview']);
 
-deskApp.constant('webAppConstant', 'http://192.168.0.112:8080/Asad/');
+deskApp.constant('webAppConstant', 'http://192.168.0.107:8080/Asad/');
 
 deskApp.config(['$routeProvider',
     function ($routeProvider) {

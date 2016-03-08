@@ -33,7 +33,7 @@ deskControllers.controller('taskAssignmentController', ['$scope', '$window', 'ge
                                     comment: QueValue.comment,
                                     rating: QueValue.rating,
                                     principleName: principleValue.principleName,
-                                    catergoryName: categoryValue.catergoryName,
+                                    categoryName: categoryValue.catergoryName,
                                     templateName: templateValue.templateName
                                 });
                             });
@@ -67,9 +67,9 @@ deskControllers.controller('taskAssignmentController', ['$scope', '$window', 'ge
                         angular.forEach(response.data, function (value, key) {
                             $scope.users.push({
                                 userID: value.userID,
-                                userName: value.name,
-                                principleItem: [],
-                                categoryItem: []
+                                username: value.name,
+                                principleList: [],
+                                categoryList: []
                             })
                         });
                     }
@@ -89,18 +89,21 @@ deskControllers.controller('taskAssignmentController', ['$scope', '$window', 'ge
         });
 
         $scope.assignTask = function(){
-           /* assignTask.save($scope.users,function(response){
+            $("#loader").fadeIn("fast");
+            assignTask.save($scope.users,function(response){
                 if (response.status == 0) {
+                    $("#loader").fadeOut("fast");
                     $window.location.reload();
                     $.toaster(response.message, 'Congratulation', 'success');
                 }
                 else {
+                    $("#loader").fadeOut("fast");
                     $.toaster(response.message, 'Alert', 'warning');
                 }
             },function(){
+                $("#loader").fadeOut("fast");
                 $.toaster("Connection Error", 'Alert', 'danger');
-            })*/
-            alert(JSON.stringify($scope.users));
+            })
         }
 
 

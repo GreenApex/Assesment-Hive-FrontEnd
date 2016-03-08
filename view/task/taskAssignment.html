@@ -52,42 +52,39 @@
         <div class="col-md-6">
             <div class="panel panel-primary"
                  ng-repeat="i in users">
-                <div class="panel-heading">{{i.userName}}</div>
+                <div class="panel-heading">{{i.username}}</div>
                 <div class="panel-body">
-                    <div class="col-md-6" dnd-list="i.principleItem" dnd-allowed-types="['principleType']">
+                    <div class="col-md-6" dnd-list="i.principleList" dnd-allowed-types="['principleType']">
                         <div class="panel-heading">Principle</div>
                         <ul>
-                            <li ng-repeat="item in i.principleItem"
+                            <li ng-repeat="item in i.principleList"
                                 style="cursor: pointer"
                                 dnd-draggable="item"
                                 dnd-type="'itemType'"
-                                dnd-moved="i.principleItem.splice($index, 1)"
+                                dnd-moved="i.principleList.splice($index, 1)"
                                 dnd-effect-allowed="move"
                                 dnd-selected="models.selected = item">
                                 <div class="container-element panel panel-warning">
                                     <div class="panel-heading" >
-                                        <span ng-if="item.templateName != ''">{{item.templateName}}</span>
-                                        <span ng-if="item.templateName != '' && item.catergoryName != ''"> > {{item.catergoryName}}</span>
-                                        <span ng-if="item.templateName != '' && item.catregoryName != '' && item.principleName != ''"> > {{item.principleName}}</span>
+                                        <span ng-if="item.templateName != '' && item.catregoryName != '' && item.principleName != ''">{{item.principleName}}</span>
                                     </div>
                                 </div>
                             </li>
                         </ul>
                     </div>
-                    <div class="col-md-6" dnd-list="i.categoryItem" dnd-allowed-types="['categoryType']">
+                    <div class="col-md-6" dnd-list="i.categoryList" dnd-allowed-types="['categoryType']">
                         <div class="panel-heading">Category</div>
                         <ul>
-                            <li ng-repeat="item in i.categoryItem"
+                            <li ng-repeat="item in i.categoryList"
                                 style="cursor: pointer"
                                 dnd-draggable="item"
                                 dnd-type="'itemType'"
-                                dnd-moved="i.categoryItem.splice($index, 1)"
+                                dnd-moved="i.categoryList.splice($index, 1)"
                                 dnd-effect-allowed="move"
                                 dnd-selected="models.selected = item">
                                 <div class="container-element panel panel-warning">
                                     <div class="panel-heading" >
-                                        <span ng-if="item.templateName != ''">{{item.templateName}}</span>
-                                        <span ng-if="item.templateName != '' && item.catergoryName != ''"> > {{item.catergoryName}}</span>
+                                        <span ng-if="item.templateName != '' && item.catergoryName != ''">{{item.catergoryName}}</span>
                                     </div>
                                 </div>
                             </li>
